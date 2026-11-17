@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+
+        body {
+            width: 320px;
+            margin: 0;
+            padding: 14px;
+            font: 14px system-ui, sans-serif;
+        }
+
+        h1 {
+            font-size: 15px;
+            margin: 0 0 10px;
+        }
+
+        #title {
+            font-size: 12px;
+            opacity: .7;
+            margin-bottom: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        select,
+        button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: .5;
+            cursor: default;
+        }
+
+        progress {
+            width: 100%;
+            height: 10px;
+        }
+
+        #status {
+            font-size: 12px;
+            min-height: 16px;
+            margin-top: 4px;
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>yt-dlp Downloader</h1>
+    <div id="title"></div>
+    <select id="format">
+        <option value="best">Best quality (MP4)</option>
+        <option value="1080">Up to 1080p</option>
+        <option value="720">Up to 720p</option>
+        <option value="audio">Audio only (MP3)</option>
+    </select>
+    <button id="go">Download</button>
+    <progress id="bar" max="100" value="0" hidden></progress>
+    <div id="status"></div>
+    <script src="popup.js"></script>
+</body>
+
+</html>
