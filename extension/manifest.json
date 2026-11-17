@@ -3,6 +3,7 @@
   "name": "YouTube Downloader",
   "version": "1.0.0",
   "description": "Download the current YouTube video using a local yt-dlp install.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuECE0JXQP/CMIX6ZOznw19UApgP2YgGWHSwFijTfhdcm8z0RtppTgBS5qAkrDm2x+Bf1G2Th0hf53YogxLq23Pdkk80ORniZJGbEBthlgcwOurK8HwLlsPw+BVn+GucBsOU1Ihb47bO7ApzK6tbRLZGvbXI3ReFIR7EFygaY0f3/gsM1BKbypmG/Q35KFgPED/DGziy6ERCkUprvv/BNHobPKTiq9WEFqp26qdUmZGf0AjormaVOecAj0OarInNO8tG78Rnt0RqtUl8swkhb7tgVzcfOx/JkQSP639Q8eVrAOJ7I2nOlrw3FHUDP8uz2t9kWfC6bLclJ4VMGd0B3HQIDAQAB",
   "permissions": ["nativeMessaging", "activeTab", "storage"],
   "action": { "default_popup": "popup.html", "default_title": "Download with yt-dlp" },
   "background": { "service_worker": "background.js" }
