@@ -15,9 +15,14 @@ function start(url, format) {
   setState({ status: "starting", percent: 0 });
   port = chrome.runtime.connectNative(HOST);
   port.onMessage.addListener((m) => setState(m));
-  port.onDisconnect.addListener(() => {
+  port.onDisconnect.addListener(async () => {
     const err = chrome.runtime.lastError;
-    if (err) setState({ status: "error", message: err.message });
+    if (err) {
+      const { state } = await chrome.storage.session.get("state");
+      if (!state || !["done", "error"].includes(state.status)) {
+        setState({ status: "error", message: err.message });
+      }
+    }
     port = null;
   });
   port.postMessage({ url, format });

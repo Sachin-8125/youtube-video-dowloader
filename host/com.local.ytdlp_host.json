@@ -1,0 +1,9 @@
+{
+  "name": "com.local.ytdlp_host",
+  "description": "yt-dlp native host",
+  "path": "C:\\Project10x\\youtube-video-downloader\\host\\host.bat",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://flpifdmknddecbpddjncbchmlilkjcim/"
+  ]
+}

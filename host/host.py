@@ -11,6 +11,13 @@ ALLOWED_HOSTS = {"youtube.com", "www.youtube.com", "m.youtube.com", "music.youtu
 extra = ["/usr/local/bin", "/opt/homebrew/bin", str(Path.home() / ".local" / "bin")]
 os.environ["PATH"] = os.pathsep.join([os.environ.get("PATH", "")] + extra)
 
+# winget's ffmpeg package has no PATH shim; locate its bin dir directly.
+if os.name == "nt" and not shutil.which("ffmpeg"):
+    winget_pkgs = Path(os.environ.get("LOCALAPPDATA", "")) / "Microsoft" / "WinGet" / "Packages"
+    for d in winget_pkgs.glob("Gyan.FFmpeg*/ffmpeg-*-full_build/bin"):
+        os.environ["PATH"] = os.pathsep.join([str(d), os.environ["PATH"]])
+        break
+
 FORMATS = {
     "best":  ["-f", "bv*+ba/b", "--merge-output-format", "mp4"],
     "1080":  ["-f", "bv*[height<=1080]+ba/b[height<=1080]", "--merge-output-format", "mp4"],
@@ -37,10 +44,7 @@ def valid_url(u):
     except Exception:
         return False
 
-def main():
-    msg = read_msg()
-    if not msg:
-        return
+def handle(msg):
     url, fmt = msg.get("url", ""), msg.get("format", "best")
     if not valid_url(url) or fmt not in FORMATS:
         return send({"status": "error", "message": "Invalid URL or format"})
@@ -80,6 +84,21 @@ def main():
         send({"status": "done", "dir": str(OUT_DIR)})
     else:
         send({"status": "error", "message": last_error or f"yt-dlp exited with code {code}"})
+
+def main():
+    # Keep the process alive until Chrome closes stdin, so the port does not
+    # disconnect (and surface "Native host has exited") after each download.
+    while True:
+        msg = read_msg()
+        if not msg:
+            return
+        try:
+            handle(msg)
+        except Exception as e:
+            try:
+                send({"status": "error", "message": str(e)})
+            except Exception:
+                return
 
 if __name__ == "__main__":
     main()
